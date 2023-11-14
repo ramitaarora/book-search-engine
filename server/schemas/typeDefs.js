@@ -24,6 +24,7 @@ const typeDefs = `
 
     type Query {
         getSingleUser(_id: ID, email: String): User
+        me: User
     }
 
     type Mutation {

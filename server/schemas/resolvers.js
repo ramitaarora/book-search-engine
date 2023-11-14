@@ -8,7 +8,12 @@ const resolvers = {
                 $or: [{_id: args._id }, {username: args.username}],
             })
         },
-        
+        me: async (parent, args, context) => {
+            if (context.user) {
+              return User.findOne({ _id: context.user._id }).populate('thoughts');
+            }
+            throw AuthenticationError;
+          },
     },
     
     Mutation: {
