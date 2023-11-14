@@ -32,6 +32,8 @@ const resolvers = {
 
             return { token, user };
         },
-        
+
     }
-}
+};
+
+module.exports = resolvers;
