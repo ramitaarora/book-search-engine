@@ -12,3 +12,21 @@ export const QUERY_USER = gql`
         }
     }
 `
+
+export const ME = gql `
+    query me {
+        me {
+        _id
+        email
+        username
+        savedBooks {
+            title
+            bookId
+            authors
+            description
+            image
+            link
+        }
+        }
+    }
+`
