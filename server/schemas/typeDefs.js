@@ -23,7 +23,7 @@ const typeDefs = `
     }
 
     type Query {
-        getSingleUser(_id: ID, email: String): User
+        getSingleUser(_id: ID, username: String): User
         me: User
     }
 
@@ -31,7 +31,7 @@ const typeDefs = `
         createUser(username: String!, email: String!, password: String!): User
         login(email: String, password: String!, username: String): Auth
         saveBook(userId: ID!, body: String!): User
-        deleteBook(userId: ID!, bookId: String!)
+        deleteBook(userId: ID!, bookId: String!): User
     }
 `;
 
