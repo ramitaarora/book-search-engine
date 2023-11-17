@@ -37,16 +37,16 @@ const resolvers = {
 
             return { token, user };
         },
-        saveBook: async (parent, {userId, body}) => {
+        saveBook: async (parent, {body}, context) => {
             return await User.findOneAndUpdate(
-                { _id: userId },
+                { _id: context.user._id },
                 { $addToSet: { savedBooks: body } },
                 { new: true, runValidators: true}
             );
         },
-        deleteBook: async (parent, {userId, bookId}) => {
+        deleteBook: async (parent, {bookId}, context) => {
             return await User.findOneAndUpdate(findOneAndUpdate(
-                { _id: userId },
+                { _id: context.user._id },
                 { $pull: { savedBooks: { bookId: bookId } } },
                 { new: true }
               )
