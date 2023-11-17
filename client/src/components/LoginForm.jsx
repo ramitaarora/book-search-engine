@@ -10,7 +10,7 @@ import { LOGIN_USER } from '../utils/mutations';
 
 const LoginForm = () => {
   const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated, setValidated] = useState(false);
+  const [validated] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   const [login, { error, data }] = useMutation(LOGIN_USER);
@@ -37,8 +37,7 @@ const LoginForm = () => {
 
       console.log(data);
       Auth.login(data.login.token);
-      setValidated(true);
-      
+
     } catch (err) {
       console.error(err);
       setShowAlert(true);
