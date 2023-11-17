@@ -77,15 +77,10 @@ const SearchBooks = () => {
     const [saveBook] = useMutation(SAVE_BOOK);
 
     try {
-      const response = await saveBook({
-        varables: {...bookToSave}
+      const { data } = await saveBook({
+        variables: { bookData: { ...bookToSave } },
       });
-
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
-
-      // if book successfully saves to user's account, save book id to state
+      console.log(savedBookIds);
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
     } catch (err) {
       console.error(err);
