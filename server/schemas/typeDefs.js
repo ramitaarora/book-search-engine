@@ -22,6 +22,15 @@ const typeDefs = `
         user: User
     }
 
+    input BookInput {
+        authors: [String]
+        description: String!
+        bookId: String!
+        image: String
+        link: String
+        title: String!
+      }
+
     type Query {
         getSingleUser(_id: ID, username: String): User
         me: User
