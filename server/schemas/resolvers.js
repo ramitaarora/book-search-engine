@@ -10,24 +10,28 @@ const resolvers = {
         },
         me: async (parent, args, context) => {
             if (context.user) {
-              return User.findOne({ _id: context.user._id }).populate('thoughts');
+              return User.findOne({ _id: context.user._id });
             }
             throw AuthenticationError;
           },
     },
     
     Mutation: {
-        createUser: async (parent, args) => {
-            return await User.create({args});
+        createUser: async (parent, {username, email, password}) => {
+            console.log('createUser!')
+            const user = await User.create({ username, email, password });
+            const token = signToken(user);
+            return { token, user }; 
         },
-        login: async (parent, args) => {
-            const user = await User.findOne({ $or: [{ username: args.username }, { email: args.email }] });
+        login: async (parent, {email, password}) => {
+            console.log('login!')
+            const user = await User.findOne({ email });
 
             if (!user) {
                 throw AuthenticationError;
             }
 
-            const correctPw = await user.isCorrectPassword(args.password);
+            const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
                 throw AuthenticationError;
