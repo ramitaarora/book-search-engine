@@ -1,4 +1,4 @@
-const { User, Book } = require('../models');
+const { User } = require('../models');
 const { signToken, AuthenticationError } = require('../utils/auth');
 
 const resolvers = {
@@ -10,21 +10,22 @@ const resolvers = {
         },
         me: async (parent, args, context) => {
             if (context.user) {
-              return User.findOne({ _id: context.user._id });
+              const userData = await User.findOne({ _id: context.user._id }).select('-__v -password');
+      
+              return userData;
             }
+      
             throw AuthenticationError;
-        },
+          },
     },
     
     Mutation: {
-        addUser: async (parent, {username, email, password}) => {
-            console.log('createUser!')
-            const user = await User.create({ username, email, password });
+        addUser: async (parent, args) => {
+            const user = await User.create(args);
             const token = signToken(user);
             return { token, user }; 
         },
         login: async (parent, {email, password}) => {
-            console.log('login!')
             const user = await User.findOne({ email });
 
             if (!user) {
@@ -41,21 +42,32 @@ const resolvers = {
 
             return { token, user };
         },
-        saveBook: async (parent, {body}, context) => {
-            return await User.findOneAndUpdate(
+        saveBook: async (parent, { bookData }, context) => {
+            if (context.user) {
+              const updatedUser = await User.findByIdAndUpdate(
                 { _id: context.user._id },
-                { $addToSet: { savedBooks: body } },
-                { new: true, runValidators: true}
-            );
-        },
-        deleteBook: async (parent, {bookId}, context) => {
-            return await User.findOneAndUpdate(findOneAndUpdate(
-                { _id: context.user._id },
-                { $pull: { savedBooks: { bookId: bookId } } },
+                { $push: { savedBooks: bookData } },
                 { new: true }
-              )
-            )
-        },
+              );
+      
+              return updatedUser;
+            }
+      
+            throw AuthenticationError;
+          },
+          removeBook: async (parent, { bookId }, context) => {
+            if (context.user) {
+              const updatedUser = await User.findOneAndUpdate(
+                { _id: context.user._id },
+                { $pull: { savedBooks: { bookId } } },
+                { new: true }
+              );
+      
+              return updatedUser;
+            }
+      
+            throw AuthenticationError;
+          },
     },
 };
 
