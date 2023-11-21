@@ -1,4 +1,5 @@
 import './App.css';
+import { Outlet } from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -6,7 +7,6 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import { Outlet } from 'react-router-dom';
 
 import Navbar from './components/Navbar';
 
@@ -36,10 +36,10 @@ const client = new ApolloClient({
 
 function App() {
   return (
-      <ApolloProvider client={client}>
-        <Navbar />
-        <Outlet />
-      </ApolloProvider>
+    <ApolloProvider client={client}>
+      <Navbar />
+      <Outlet />
+    </ApolloProvider>
   );
 }
 
