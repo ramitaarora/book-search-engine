@@ -20,7 +20,7 @@ To start, run `npm run develop`.
 
 ## Usage
 
-This project has been deployed at: https://git.heroku.com/book-search-engine-indurkhya.git
+This project has been deployed at: https://book-search-engine-indurkhya-b4b2721bbff0.herokuapp.com/
 
 <img src="./client/public/book-engine-screenshot.png" alt="screenshot"/>
 
